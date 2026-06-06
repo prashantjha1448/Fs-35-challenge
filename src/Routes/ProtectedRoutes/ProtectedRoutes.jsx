@@ -3,7 +3,7 @@ import { Navigate, Outlet } from 'react-router'
 import {useSelector} from "react-redux"
 
 const ProtectedRoutes = () => {
-  const {isAuthenticate }= useSelector((store)=>store.Auth)
+  const {isAuthenticate }= useSelector((store)=>store.auth)
 
   if(!isAuthenticate) {
     return <Navigate to={'/'} replace/>

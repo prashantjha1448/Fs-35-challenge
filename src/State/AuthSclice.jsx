@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-
 const LoadUserfromLoaclStorage = () => {
   try {
 
@@ -16,8 +15,28 @@ const LoadUserfromLoaclStorage = () => {
 
 
 const SetUSerfromLoacalStorage = (data) => {
-  localStorage.setItem("user", JSON.stringify(data));
+
+  let Users =
+    JSON.parse(localStorage.getItem("AllUsers")) || [];
+
+  const userExists = Users.some(
+    (user) => user.email === data.email
+  );
+
+  if (userExists) {
+    alert("User already exists");
+    return;
+  }
+
+  Users.push(data);
+
+  localStorage.setItem(
+    "AllUsers",
+    JSON.stringify(Users)
+  );
 };
+
+
 
 
 const RemoveUSerFromLocalStorage = () => {
@@ -25,22 +44,23 @@ const RemoveUSerFromLocalStorage = () => {
 };
 
 
+
 const savedUser = LoadUserfromLoaclStorage();
 
 const AuthSclice = createSlice({
   name: "auth",
-
   initialState: {
-    User: savedUser,
+    user: savedUser,
     isLoading: false,
     isAuthenticate: !!savedUser,
+
   },
 
   reducers: {
 
     LoginSuccess: (state, action) => {
 
-      state.User = action.payload;
+      state.user = action.payload;
       state.isAuthenticate = true;
 
       SetUSerfromLoacalStorage(action.payload);
@@ -48,7 +68,7 @@ const AuthSclice = createSlice({
 
     LogoutSucess: (state) => {
 
-      state.User = null;
+      state.user = null;
       state.isAuthenticate = false;
 
       RemoveUSerFromLocalStorage();
@@ -56,19 +76,37 @@ const AuthSclice = createSlice({
 
     RegisterSuccess: (state, action) => {
 
-      state.User = action.payload;
+      const userData = {...action.payload,favourite : []}
+      
+      state.user = userData;
       state.isAuthenticate = true;
-
+       
       SetUSerfromLoacalStorage(action.payload);
     },
+    AddToFavourite : (state , action)=>{
+
+       if (!state.user.favourites) {
+    state.user.favourites = [];
+  }
+      const exists = state.user.favourite.find((movies)=>movies.id === action.payload.id)
+      if(!exists){
+        state.favourite.user.push(action.payload)
+      }
+
+    },
+    removeToFavorite : (state ,action)=>{
+    state.user.favourite.filter((movies)=> movies.id !==action.payload)
+  }
   },
+  
 });
 
 export const {
   LoginSuccess,
   RegisterSuccess,
   LogoutSucess,
-  
+  AddToFavourite,
+  removeToFavorite
 } = AuthSclice.actions;
 
 export default AuthSclice.reducer;

@@ -6,6 +6,9 @@ import Register from "../pages/Register";
 import ProtectedRoutes from "./ProtectedRoutes/protectedRoutes";
 import AuthLayout from "../Layouts/AuthLayout";
 import Home from "../pages/Home";
+import Movies from "../pages/Movies";
+import Favourite from "../pages/Favourite";
+
 
 
 const AppRoutes = () => {
@@ -25,7 +28,8 @@ const AppRoutes = () => {
             {
                 path : "register",
                 element : <Register/>
-            }
+            },
+            
           ],
         },
       ],
@@ -41,11 +45,19 @@ const AppRoutes = () => {
             {
               index : true ,
               element :<Home/>
-            }
+            },
+            {
+              path : "movies",
+              element : <Movies/>
+            },
+            {
+              path : "favorites",
+              element : <Favourite />
+            },
+            
           ]
         }
       ]
-
     }
   ]);
   return <RouterProvider router={router} />;

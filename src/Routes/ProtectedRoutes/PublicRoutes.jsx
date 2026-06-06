@@ -4,7 +4,7 @@ import { Navigate, Outlet } from 'react-router'
 
 const PublicRoutes = () => {
 
-  const {isAuthenticate }= useSelector((store)=>store.Auth)
+  const {isAuthenticate }= useSelector((store)=>store.auth)
 
   if (isAuthenticate){
     return <Navigate to={'/home'} replace/>
