@@ -1,7 +1,7 @@
 import React from 'react'
 // import { Outlet } from 'react-router'
 import MovieCard from '../Components/MovieCard'
-import  movie from '../utils/Movies.Json'
+import  movie from '../utils/Movies.json'
 
 const Movies = () => {
   return (
